@@ -1,2 +1,3 @@
 # kakaocloud-tutorial
-# kakaocloud-tutorial
+
+해당 페이지는 카카오클라우드 관련 자료들을 모아두는 저장소입니다.
