@@ -1,0 +1,39 @@
+# MongoDB 설치
+sudo apt-get install gnupg
+wget -qO - HTTPS://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.com/apt/ubuntu focal/mongodb-enterprise/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+
+sudo apt-get update
+sudo apt-get install -y mongodb-enterprise=6.0.3
+sudo service mongod stop
+
+# 데이터 및 로그를 저장할 디렉터리를 생성 권한 설정
+sudo mkdir -p /data/mongodb
+sudo mkdir -p /data/log/mongodb
+sudo chown -R mongodb:mongodb /data/*
+
+# 로그를 작성
+cat <<EOF | sudo tee /etc/mongod.conf
+storage:
+    dbPath: /data/mongodb
+
+systemLog:
+    destination: file
+    logAppend: true
+    path: /data/log/mongodb/mongod.log
+
+net:
+    port: 27017
+    bindIp: 0.0.0.0
+
+processManagement:
+    timeZoneInfo: /usr/share/zoneinfo
+
+replication:
+    oplogSizeMB: 2000
+    replSetName: "handson-replicaset"
+EOF
+
+# mongo 프로세스 시작
+sudo service mongod start
