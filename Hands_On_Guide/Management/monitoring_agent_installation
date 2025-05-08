@@ -1,0 +1,15 @@
+# 설정 파일에 액세스 키 정보 및 로그파일 경로 입력
+cat <<EOF | sudo tee /etc/default/kic_monitor_agent
+
+KIC_MONITOR_ENDPOINT_URL=${모니터링 엔드포인트}
+KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="${액세스 키 ID}"
+KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="${보안 액세스 키}"
+
+KIC_LOG_FILE_PATH="{로그파일 경로}"
+
+## 호스트가 직접 Public 망에 접속하지 못할 경우, HTTP Proxy 서버를 지정할 수 있습니다.
+# HTTP_PROXY=http://proxy
+# HTTPS_PROXY=https://proxy
+# NO_PROXY=169.254.169.254
+EOF
+
