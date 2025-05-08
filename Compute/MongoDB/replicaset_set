@@ -1,0 +1,14 @@
+# Replicaset 생성
+mongosh --eval \
+'rs.initiate( {
+  _id : "handson-replicaset",
+  members: [
+    { _id: 0, host: "node1.rs.in:27017" },
+    { _id: 1, host: "node2.rs.in:27017" },
+    { _id: 2, host: "node3.rs.in:27017" }
+  ]
+})'
+
+# 설정 확인
+mongosh --eval \
+'rs.config()'
