@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: {PROJECT_NAME}.kr-central-2.kcr.dev/tutorial/kakaocloud-library-client:latest
+        env:
+        - name: SERVER_ENDPOINT
+          value: "http://server-service.default.svc.cluster.local:8080"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: kc-cr-secret
