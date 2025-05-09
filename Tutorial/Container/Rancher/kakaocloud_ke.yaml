@@ -1,0 +1,44 @@
+# yaml 파일 예시
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+...
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+...
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cattle
+  namespace: cattle-system
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+...
+---
+apiVersion: v1
+kind: Secret
+...
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cattle-admin
+...
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cattle-cluster-agent
+  namespace: cattle-system
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cattle-cluster-agent
+  namespace: cattle-system
+...
