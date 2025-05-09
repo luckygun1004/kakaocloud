@@ -1,3 +1,9 @@
+# Centos
+sudo yum localinstall https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-1.0.0.x86_64.rpm
+# Ubuntu
+wget https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent_1.0.0_amd64.deb
+sudo dpkg -i kic_monitor_agent_1.0.0_amd64.deb
+
 # 설정 파일에 액세스 키 정보 및 로그파일 경로 입력
 cat <<EOF | sudo tee /etc/default/kic_monitor_agent
 
