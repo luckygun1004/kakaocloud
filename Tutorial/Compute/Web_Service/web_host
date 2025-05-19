@@ -1,0 +1,10 @@
+# app_host와 동일
+# bash install-requirements.sh
+
+sudo docker run -it \
+-e SERVER_ENDPOINT=${SERVER_ENDPOINT} \
+-p 80:80 -p 443:443 \
+--name kakaocloud-library-client -d \
+$(sudo docker build -q -f ./client/deploy/Dockerfile ./client)
+
+## ENDPOINT 형식 = http://{ip}:8080

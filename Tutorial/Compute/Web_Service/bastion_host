@@ -1,0 +1,2 @@
+sudo curl -o /tmp/install-bastion.sh https://raw.githubusercontent.com/kakaoenterprise/kakaocloud-tutorials/bastion-host/install-bastion.sh
+bash /tmp/install-bastion.sh

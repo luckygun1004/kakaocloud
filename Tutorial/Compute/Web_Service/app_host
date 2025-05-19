@@ -1,0 +1,10 @@
+git clone -b kakaocloud-library https://github.com/kakaoenterprise/kakaocloud-tutorials
+cd kakaocloud-tutorials
+bash install-requirements.sh
+sudo docker run -it \
+-e MYSQL_HOST=${MYSQL_HOST} \
+-e DB_USERNAME=${DB_USERNAME} \
+-e DB_PASSWORD=${DB_PASSWORD} \
+-p 8080:8080 \
+--name kakaocloud-library-server -d \
+$(sudo docker build -q -f ./server/deploy/Dockerfile ./server)
