@@ -1,0 +1,26 @@
+########################### Filebeat Configuration ##############################
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+  # Set to true to enable config reloading
+  reload.enabled: false
+# ================================== Outputs ===================================
+output.kafka:
+  hosts: ["host-10-0-2-131:9092","host-10-0-0-60:9092"]
+  topic: 'nginx-from-filebeat'
+  partition.round_robin:
+    reachable_only: false
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
+# ================================= Processors =================================
+processors:
+- add_host_metadata:
+    when.not.contains.tags: forwarded
+- decode_json_fields:
+    fields: ["message"]
+    process_array: true
+    max_depth: 2
+    target: log
+    overwrite_keys: true
+    add_error_key: false

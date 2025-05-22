@@ -1,0 +1,15 @@
+# /etc/systemd/system/filebeat.service
+[Unit]
+Description=Filebeat sends log files to Kafka.
+Documentation=https://www.elastic.co/products/beats/filebeat
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+ExecStart=/home/ubuntu/filebeat/filebeat -c /home/ubuntu/filebeat/filebeat.yml -path.data /home/ubuntu/filebeat/data
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
