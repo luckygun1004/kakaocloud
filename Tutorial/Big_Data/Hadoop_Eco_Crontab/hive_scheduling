@@ -1,0 +1,53 @@
+-- Set the database
+USE hands_on_db;
+
+-- Repair the table
+MSCK REPAIR TABLE handson_table_original;
+
+-- Create empty refined_json table with JSON format using JsonSerDe
+CREATE EXTERNAL TABLE IF NOT EXISTS refined_json (
+    remote_addr STRING,
+    request_method STRING,
+    request_url STRING,
+    status STRING,
+    request_time STRING,
+    day_time STRING)
+PARTITIONED BY (date_id STRING)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.JsonSerDe'
+STORED AS TEXTFILE;
+
+-- Populate refined_json table
+INSERT INTO refined_json PARTITION (date_id)
+SELECT
+    split(log, ' ')[0] AS remote_addr,
+    split(log, ' ')[5] AS request_method,
+    split(log, ' ')[6] AS request_url,
+    split(log, ' ')[8] AS status,
+    split(log, ' ')[9] AS request_time,
+    regexp_extract(split(log, ' ')[3], '\\d{2}:\\d{2}:\\d{2}', 0) AS day_time,
+    date_id
+FROM
+    handson_table_original;
+
+-- Create empty urlcount table with JSON format using JsonSerDe
+CREATE EXTERNAL TABLE IF NOT EXISTS urlcount (
+    request_url STRING,
+    status STRING,
+    count BIGINT)
+PARTITIONED BY (date_id STRING)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.JsonSerDe'
+STORED AS TEXTFILE;
+
+-- Populate urlcount table
+INSERT INTO urlcount PARTITION (date_id)
+SELECT
+    request_url,
+    status,
+    count(*) AS count,
+    date_id
+FROM
+    refined_json
+GROUP BY
+    request_url,
+    status,
+    date_id;

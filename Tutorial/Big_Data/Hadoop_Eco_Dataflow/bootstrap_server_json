@@ -1,0 +1,319 @@
+{
+  "type": "kafka",
+  "spec": {
+    "ioConfig": {
+      "type": "kafka",
+      "consumerProperties": {
+        "bootstrap.servers": "{WORKER-NODE1-HOSTNAME}:9092,{WORKDER-NODE2-HOSTNAME}:9092"
+      },
+      "topic": "nginx-from-filebeat",
+      "inputFormat": {
+        "type": "json",
+        "flattenSpec": {
+          "fields": [
+            {
+              "name": "agent.ephemeral_id",
+              "type": "path",
+              "expr": "$.agent.ephemeral_id"
+            },
+            {
+              "name": "agent.id",
+              "type": "path",
+              "expr": "$.agent.id"
+            },
+            {
+              "name": "agent.name",
+              "type": "path",
+              "expr": "$.agent.name"
+            },
+            {
+              "name": "agent.type",
+              "type": "path",
+              "expr": "$.agent.type"
+            },
+            {
+              "name": "agent.version",
+              "type": "path",
+              "expr": "$.agent.version"
+            },
+            {
+              "name": "ecs.version",
+              "type": "path",
+              "expr": "$.ecs.version"
+            },
+            {
+              "name": "event.dataset",
+              "type": "path",
+              "expr": "$.event.dataset"
+            },
+            {
+              "name": "event.module",
+              "type": "path",
+              "expr": "$.event.module"
+            },
+            {
+              "name": "event.timezone",
+              "type": "path",
+              "expr": "$.event.timezone"
+            },
+            {
+              "name": "fileset.name",
+              "type": "path",
+              "expr": "$.fileset.name"
+            },
+            {
+              "name": "host.architecture",
+              "type": "path",
+              "expr": "$.host.architecture"
+            },
+            {
+              "name": "host.containerized",
+              "type": "path",
+              "expr": "$.host.containerized"
+            },
+            {
+              "name": "host.hostname",
+              "type": "path",
+              "expr": "$.host.hostname"
+            },
+            {
+              "name": "host.id",
+              "type": "path",
+              "expr": "$.host.id"
+            },
+            {
+              "name": "host.ip",
+              "type": "path",
+              "expr": "$.host.ip"
+            },
+            {
+              "name": "host.mac",
+              "type": "path",
+              "expr": "$.host.mac"
+            },
+            {
+              "name": "host.name",
+              "type": "path",
+              "expr": "$.host.name"
+            },
+            {
+              "name": "host.os.codename",
+              "type": "path",
+              "expr": "$.host.os.codename"
+            },
+            {
+              "name": "host.os.family",
+              "type": "path",
+              "expr": "$.host.os.family"
+            },
+            {
+              "name": "host.os.kernel",
+              "type": "path",
+              "expr": "$.host.os.kernel"
+            },
+            {
+              "name": "host.os.name",
+              "type": "path",
+              "expr": "$.host.os.name"
+            },
+            {
+              "name": "host.os.platform",
+              "type": "path",
+              "expr": "$.host.os.platform"
+            },
+            {
+              "name": "host.os.type",
+              "type": "path",
+              "expr": "$.host.os.type"
+            },
+            {
+              "name": "host.os.version",
+              "type": "path",
+              "expr": "$.host.os.version"
+            },
+            {
+              "name": "input.type",
+              "type": "path",
+              "expr": "$.input.type"
+            },
+            {
+              "name": "log.body_bytes_sent",
+              "type": "path",
+              "expr": "$.log.body_bytes_sent"
+            },
+            {
+              "name": "log.file.path",
+              "type": "path",
+              "expr": "$.log.file.path"
+            },
+            {
+              "name": "log.geoip_country_code",
+              "type": "path",
+              "expr": "$.log.geoip_country_code"
+            },
+            {
+              "name": "log.geoip_latitude",
+              "type": "path",
+              "expr": "$.log.geoip_latitude"
+            },
+            {
+              "name": "log.geoip_longitude",
+              "type": "path",
+              "expr": "$.log.geoip_longitude"
+            },
+            {
+              "name": "log.host",
+              "type": "path",
+              "expr": "$.log.host"
+            },
+            {
+              "name": "log.hostname",
+              "type": "path",
+              "expr": "$.log.hostname"
+            },
+            {
+              "name": "log.http_referer",
+              "type": "path",
+              "expr": "$.log.http_referer"
+            },
+            {
+              "name": "log.http_user_agent",
+              "type": "path",
+              "expr": "$.log.http_user_agent"
+            },
+            {
+              "name": "log.offset",
+              "type": "path",
+              "expr": "$.log.offset"
+            },
+            {
+              "name": "log.remote_addr",
+              "type": "path",
+              "expr": "$.log.remote_addr"
+            },
+            {
+              "name": "log.remote_user",
+              "type": "path",
+              "expr": "$.log.remote_user"
+            },
+            {
+              "name": "log.request",
+              "type": "path",
+              "expr": "$.log.request"
+            },
+            {
+              "name": "log.request_method",
+              "type": "path",
+              "expr": "$.log.request_method"
+            },
+            {
+              "name": "log.request_uri",
+              "type": "path",
+              "expr": "$.log.request_uri"
+            },
+            {
+              "name": "log.status",
+              "type": "path",
+              "expr": "$.log.status"
+            },
+            {
+              "name": "log.time_iso8601",
+              "type": "path",
+              "expr": "$.log.time_iso8601"
+            },
+            {
+              "name": "log.time_local",
+              "type": "path",
+              "expr": "$.log.time_local"
+            },
+            {
+              "name": "log.uri",
+              "type": "path",
+              "expr": "$.log.uri"
+            },
+            {
+              "name": "service.type",
+              "type": "path",
+              "expr": "$.service.type"
+            },
+            {
+              "name": "$.@metadata.beat",
+              "type": "path",
+              "expr": "$['@metadata'].beat"
+            },
+            {
+              "name": "$.@metadata.pipeline",
+              "type": "path",
+              "expr": "$['@metadata'].pipeline"
+            },
+            {
+              "name": "$.@metadata.type",
+              "type": "path",
+              "expr": "$['@metadata'].type"
+            },
+            {
+              "name": "$.@metadata.version",
+              "type": "path",
+              "expr": "$['@metadata'].version"
+            }
+          ]
+        }
+      },
+      "useEarliestOffset": true
+    },
+    "tuningConfig": {
+      "type": "kafka"
+    },
+    "dataSchema": {
+      "dataSource": "nginx-from-filebeat",
+      "timestampSpec": {
+        "column": "@timestamp",
+        "format": "iso"
+      },
+      "dimensionsSpec": {
+        "dimensions": [
+          "host.name",
+          {
+            "name": "log.body_bytes_sent",
+            "type": "float"
+          },
+          "log.file.path",
+          "log.geoip_country_code",
+          "log.geoip_latitude",
+          "log.geoip_longitude",
+          "log.host",
+          "log.hostname",
+          "log.http_referer",
+          "log.http_user_agent",
+          "log.offset",
+          "log.remote_addr",
+          "log.remote_user",
+          "log.request",
+          "log.request_method",
+          "log.request_uri",
+          {
+            "name": "log.status",
+            "type": "long"
+          },
+          "log.time_iso8601",
+          "log.time_local",
+          "log.uri"
+        ]
+      },
+      "granularitySpec": {
+        "queryGranularity": "none",
+        "rollup": false
+      },
+      "transformSpec": {
+        "filter": {
+          "type": "not",
+          "field": {
+            "type": "selector",
+            "dimension": "log.status",
+            "value": null
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+## shell
+sudo apt-get update -y
+sudo apt-get install -y jq
+
+## cluster api
+cat << \EOF | sudo tee /tmp/env.sh
+#!/bin/bash
+export CLUSTER_ID="${CLUSTER_ID}"
+export HADOOP_API_KEY="${HADOOP_API_KEY}"
+export ACCESS_KEY="${ACCESS_KEY}"
+export ACCESS_SECRET_KEY="${ACCESS_SECRET_KEY}"
+EOF
+## ${} 직접 입력하기
+
+
+## hadoop Eco execute
+cat << \EOF | sudo tee /tmp/exec_hadoop.sh
+#!/bin/bash
+
+. /tmp/env.sh
+
+curl -X POST "https://hadoop-eco.kr-central-2.kakaocloud.com/v2/hadoop-eco/clusters/${CLUSTER_ID}" \
+    -H "Hadoop-Eco-Api-Key:${HADOOP_API_KEY}" \
+    -H "Credential-ID:${ACCESS_KEY}" \
+    -H "Credential-Secret:${ACCESS_SECRET_KEY}" \
+    -H "Content-Type: application/json"
+EOF
+
+## cron install & execute
+sudo apt update -y
+sudo apt install -y cron
+
+cat << EOF > tmp_crontab
+0 0 * * * /bin/bash /tmp/exec_hadoop.sh
+EOF
+sudo crontab tmp_crontab
+rm tmp_crontab
+
+sudo crontab -l
+
+bash /tmp/exec_hadoop.sh

@@ -1,0 +1,79 @@
+## Filebeat 설치
+cd ~
+sudo curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.9.1-linux-x86_64.tar.gz
+tar xzvf filebeat-8.9.1-linux-x86_64.tar.gz
+ln -s filebeat-8.9.1-linux-x86_64 filebeat
+
+## Filebeat 설정 (Hadoop Eco 클러스터 워커 노드의 Kafka와 연동)
+cat << EOF | sudo tee ~/filebeat/filebeat.yml
+
+########################### Filebeat Configuration ##############################
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: \${path.config}/modules.d/*.yml
+  # Set to true to enable config reloading
+  reload.enabled: false
+# ================================== Outputs ===================================
+output.kafka:
+  hosts: ["${WORKER-NODE1-HOSTNAME}:9092","${WORKER-NODE2-HOSTNAME}:9092"]
+  topic: 'nginx-from-filebeat'
+  partition.round_robin:
+    reachable_only: false
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
+# ================================= Processors =================================
+processors:
+- add_host_metadata:
+    when.not.contains.tags: forwarded
+- decode_json_fields:
+    fields: ["message"]
+    process_array: true
+    max_depth: 2
+    target: log
+    overwrite_keys: true
+    add_error_key: false
+
+EOF
+
+## ${path.config}는 수정 x, output.kafka -> hosts에 IP 주소 대신 Hostname을 입력
+## ex) host-172-16-0-0:9092
+
+
+## Filebeat Nginx 모듈 설정
+cat << EOF | sudo tee ~/filebeat/modules.d/nginx.yml
+- module: nginx
+  access:
+    enabled: true
+
+  error:
+    enabled: false
+
+  ingress_controller:
+    enabled: false
+EOF
+
+## Filebeat Service 생성
+cat << 'EOF' | sudo tee /etc/systemd/system/filebeat.service
+[Unit]
+Description=Filebeat sends log files to Kafka.
+Documentation=https://www.elastic.co/products/beats/filebeat
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+ExecStart=/home/ubuntu/filebeat/filebeat -c /home/ubuntu/filebeat/filebeat.yml -path.data /home/ubuntu/filebeat/data
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+EOF
+
+## Filebeat 실행
+sudo systemctl daemon-reload
+sudo systemctl enable filebeat
+sudo systemctl start filebeat
+sudo systemctl status filebeat
