@@ -7,7 +7,7 @@ sudo dpkg -i kic_monitor_agent_1.0.0_amd64.deb
 # 설정 파일에 액세스 키 정보 및 로그파일 경로 입력
 cat <<EOF | sudo tee /etc/default/kic_monitor_agent
 
-KIC_MONITOR_ENDPOINT_URL=${모니터링 엔드포인트}
+KIC_MONITOR_ENDPOINT_URL="https://monitoring.kr-central-2.kakaocloud.com"
 KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="${액세스 키 ID}"
 KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="${보안 액세스 키}"
 

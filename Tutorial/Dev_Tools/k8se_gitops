@@ -1,3 +1,4 @@
+# 단, repository가 private로 가정되어있을 때 적용
 apiVersion: v1
 kind: Secret
 metadata:
