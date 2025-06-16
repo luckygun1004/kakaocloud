@@ -1,0 +1,35 @@
+# URL
+https://iam.kakaocloud.com/identity/v3/auth/tokens
+
+# JSON BODY
+{
+    "auth": {
+        "identity": {
+            "methods": [
+                "application_credential"
+            ],
+            "application_credential": {
+                "name": "${IAM 액세스 키 이름}",
+                "secret": "${보안 액세스 키}",
+                "user": {
+                    "id": "${사용자 UUID}"
+                }
+            }
+        }
+    }
+}
+
+# diff
+{
+    "auth": {
+        "identity": {
+            "methods": [
+                "application_credential"
+            ],
+            "application_credential": {
+                "id": "${IAM 액세스 키 ID}",
+                "secret": "${보안 액세스 키}"
+            }
+        }
+    }
+}

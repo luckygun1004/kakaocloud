@@ -1,0 +1,2 @@
+GET https://iam.kakaocloud.com/identity/v3/users/{userId}/projects
+X-Auth-token: {tokenId}
