@@ -1,0 +1,25 @@
+import torch
+
+def check_gpu_available():
+    if torch.cuda.is_available():
+        print("현재 시스템에서 GPU를 사용할 수 있습니다.")
+    else:
+        print("현재 시스템에서 GPU를 사용할 수 없습니다.")
+
+check_gpu_available()
+
+# 단일 GPU Instance를 사용하는 경우, 
+import torch
+import os
+
+def set_cuda_devices():
+ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+def check_gpu_available():
+ if torch.cuda.is_available():
+    print("현재 시스템에서 GPU를 사용할 수 있습니다.")
+ else:
+    print("현재 시스템에서 GPU를 사용할 수 없습니다.")
+
+set_cuda_devices()
+check_gpu_available()
